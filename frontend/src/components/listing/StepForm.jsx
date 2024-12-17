@@ -3,6 +3,7 @@ import { HomeIcon, UserIcon, BuildingLibraryIcon, WifiIcon, SparklesIcon, TruckI
 import { useDropzone } from 'react-dropzone';
 import { api } from '../../http/client';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const questions = [
     {
@@ -71,6 +72,8 @@ const StepForm = () => {
     const [location, setLocation] = useState('');
     const [selectedFiles, setSelectedFiles] = useState([]);
 
+    const navigate = useNavigate()
+
     // Define the handleFileDrop function before using it
     const handleFileDrop = (acceptedFiles) => {
         setSelectedFiles(acceptedFiles);
@@ -130,6 +133,7 @@ const StepForm = () => {
             // Send JSON data to the API
             const response = await api.post('/api/listing/create', listingData);
             console.log('Listing Created Successfully:', response.data);
+            navigate('/')
             toast.success('Listing Created Successfully')
         } catch (error) {
             console.error('Error submitting the form:', error);

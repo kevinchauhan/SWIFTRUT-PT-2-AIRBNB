@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
+import { FiAlignJustify } from "react-icons/fi";
 import Modal from './Modal';
 import SignUpForm from './Signup';
 import LoginForm from './Login';
 import Logo from './Logo';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,6 +60,10 @@ const Navbar = () => {
                     </button>
                 </div>
 
+                <div className="hidden md:flex items-center">
+                    <Link to='/create-listing' className='hover:text-primary'>Airbnb you Home</Link>
+                </div>
+
                 <div className="flex md:hidden items-center border rounded-full px-3 py-1 shadow-sm">
                     <button className="text-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5">
@@ -66,12 +72,18 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 border rounded-full p-1 pl-2 shadow-sm">
+
                     <div className="relative" ref={dropdownRef}>
-                        <button onClick={toggleDropdown} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-6 w-6 text-gray-600">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-4.418 0-8 3.582-8 8h16c0-4.418-3.582-8-8-8z" />
-                            </svg>
+                        <button onClick={toggleDropdown} className="flex items-center space-x-4  cursor-pointer">
+                            <div className='text-xl'>
+                                <FiAlignJustify />
+                            </div>
+                            <div className='rounded-full bg-gray-200 p-2'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5 text-gray-600">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-4.418 0-8 3.582-8 8h16c0-4.418-3.582-8-8-8z" />
+                                </svg>
+                            </div>
                         </button>
 
                         {isDropdownOpen && (
