@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Modal from './Modal';
 import SignUpForm from './Signup';
 import LoginForm from './Login';
+import Logo from './Logo';
 
 const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,7 +41,7 @@ const Navbar = () => {
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
                 <div className="flex items-center">
                     <a href="/" className="text-2xl font-bold text-primary">
-                        airbnb
+                        <Logo />
                     </a>
                 </div>
 
