@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { HomeIcon, UserIcon, BuildingLibraryIcon, WifiIcon, SparklesIcon, TruckIcon } from '@heroicons/react/24/outline';
 import { useDropzone } from 'react-dropzone';
-import axios from 'axios';
+import { api } from '../../http/client';
+import { toast } from 'react-toastify';
 
 const questions = [
     {
@@ -67,7 +68,7 @@ const StepForm = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [answers, setAnswers] = useState({});
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [location, setLocation] = useState({ lat: '', lng: '' });
+    const [location, setLocation] = useState('');
     const [selectedFiles, setSelectedFiles] = useState([]);
 
     // Define the handleFileDrop function before using it
@@ -93,7 +94,7 @@ const StepForm = () => {
     };
 
     const handleNextClick = () => {
-        if (selectedOptions.length > 0 || (location.lat && location.lng)) {
+        if (selectedOptions.length > 0 || (location)) {
             setAnswers((prevAnswers) => ({
                 ...prevAnswers,
                 [questions[currentStep].question]: selectedOptions.length > 0 ? selectedOptions : location,
@@ -113,22 +114,28 @@ const StepForm = () => {
     };
 
     const handleSubmit = async () => {
-        const formData = new FormData();
-        selectedFiles.forEach((file) => {
-            formData.append('images', file);
-        });
-
         try {
-            const response = await axios.post('/cloudinary/upload', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            console.log('Uploaded images', response.data);
+            // Construct a JSON payload
+            const listingData = {
+                title: answers['Title'], // Extract from answers
+                description: answers['Description'],
+                category: answers['Which of these best describes your place?'][0],
+                placeType: answers['What type of place will guests have?'][0],
+                guestCount: Number(answers['Guests']),
+                roomCount: Number(answers['Rooms']),
+                bathroomCount: Number(answers['Bathrooms']),
+                location,
+                price: Number(answers['Price']),
+            };
+            // Send JSON data to the API
+            const response = await api.post('/api/listing/create', listingData);
+            console.log('Listing Created Successfully:', response.data);
+            toast.success('Listing Created Successfully')
         } catch (error) {
-            console.error('Error uploading images', error);
+            console.error('Error submitting the form:', error);
         }
-
-        console.log('Form Submitted:', answers);
     };
+
 
     return (
         <div className="w-full max-w-3xl mx-auto p-4">
@@ -162,18 +169,11 @@ const StepForm = () => {
                     <div className="mb-4">
                         <div className="flex space-x-4">
                             <input
-                                type="number"
-                                placeholder="Enter Latitude"
+                                type="text"
+                                placeholder="Enter Location"
                                 className="border p-2 rounded w-full"
-                                value={location.lat}
-                                onChange={(e) => setLocation({ ...location, lat: e.target.value })}
-                            />
-                            <input
-                                type="number"
-                                placeholder="Enter Longitude"
-                                className="border p-2 rounded w-full"
-                                value={location.lng}
-                                onChange={(e) => setLocation({ ...location, lng: e.target.value })}
+                                value={location}
+                                onChange={(e) => setLocation(e.target.value)}
                             />
                         </div>
                     </div>
@@ -231,11 +231,11 @@ const StepForm = () => {
                         Step {currentStep + 1} of {questions.length}
                     </p>
                     <button
-                        onClick={handleNextClick}
-                        disabled={selectedOptions.length === 0 && !(location.lat && location.lng)}
+                        onClick={currentStep === 5 ? handleSubmit : handleNextClick}
+                        disabled={selectedOptions.length === 0 && !(location)}
                         className="px-4 py-2 border border-gray-600 text-gray-600 rounded-lg disabled:opacity-50"
                     >
-                        Next
+                        {currentStep === 5 ? 'Create' : 'Next'}
                     </button>
                 </div>
             </div>
