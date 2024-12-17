@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import auth from './routes/auth.js';
+import listing from './routes/listing.js';
 import db from './config/db.js';
 import { Config } from './config/index.js';
 
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use(helmet());
 
 app.use("/api/auth", auth);
+app.use("/api/listing", listing);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
