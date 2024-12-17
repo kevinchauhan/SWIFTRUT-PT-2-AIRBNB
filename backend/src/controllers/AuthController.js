@@ -5,9 +5,9 @@ import { generateTokenAndSetCookie } from '../utils/generateToken.js';
 export class AuthController {
     async signup(req, res) {
         try {
-            const { email, password, username } = req.body;
+            const { email, password, name } = req.body;
 
-            if (!email || !password || !username) {
+            if (!email || !password || !name) {
                 return res.status(400).json({ success: false, message: "All fields are required" });
             }
 
@@ -27,11 +27,6 @@ export class AuthController {
                 return res.status(400).json({ success: false, message: "Email already exists" });
             }
 
-            const existingUserByUsername = await User.findOne({ username });
-
-            if (existingUserByUsername) {
-                return res.status(400).json({ success: false, message: "Username already exists" });
-            }
 
             const salt = await bcryptjs.genSalt(10);
             const hashedPassword = await bcryptjs.hash(password, salt);
@@ -42,7 +37,7 @@ export class AuthController {
             const newUser = new User({
                 email,
                 password: hashedPassword,
-                username,
+                name,
                 image,
             });
 
