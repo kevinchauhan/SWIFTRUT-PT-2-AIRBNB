@@ -94,6 +94,55 @@ class ListingController {
             });
         }
     }
+
+    static async getListingById(req, res) {
+        const { id: listingId } = req.params;
+
+        try {
+            const listing = await Listing.findById(listingId);
+            if (!listing) {
+                return res.status(404).json({ success: false, message: 'Listing not found' });
+            }
+
+
+            return res.status(200).json({
+                success: true,
+                message: 'Listing fetched successfully',
+                listing,
+            });
+        } catch (error) {
+            console.error('Error fecthing the listing:', error.message);
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred while fecthing the listing.',
+            });
+        }
+    }
+
+    static async createReservation(req, res) {
+        const { id: listingId } = req.params;
+
+        try {
+            const listing = await Listing.findById(listingId);
+            if (!listing) {
+                return res.status(404).json({ success: false, message: 'Listing not found' });
+            }
+
+            // Logic for reserving a listing (you can implement more complex logic here)
+            // For simplicity, just assuming the reservation was successful
+
+            return res.status(200).json({
+                success: true,
+                message: 'Reservation successful!',
+            });
+        } catch (error) {
+            console.error('Error reserving the listing:', error.message);
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred while reserving the listing.',
+            });
+        }
+    }
 }
 
 export default ListingController;
