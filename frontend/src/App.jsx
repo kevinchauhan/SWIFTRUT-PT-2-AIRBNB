@@ -1,6 +1,11 @@
+import Navbar from "./components/Navbar"
+
 const App = () => {
   return (
-    <div className="bg-orange-800">App</div>
+    <>
+      <Navbar />
+      <div className="bg-orange-800">App</div>
+    </>
   )
 }
 
