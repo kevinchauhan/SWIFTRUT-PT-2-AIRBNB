@@ -67,6 +67,33 @@ class ListingController {
             });
         }
     }
+
+    static async getAllListings(req, res) {
+        try {
+            const { category } = req.query; // Extract category from query parameters
+
+            // Define a filter object based on query params
+            const filter = {};
+            if (category) {
+                filter.category = category;
+            }
+
+            // Fetch listings based on the filter
+            const listings = await Listing.find(filter);
+
+            return res.status(200).json({
+                success: true,
+                message: 'Listings retrieved successfully!',
+                data: listings,
+            });
+        } catch (error) {
+            console.error('Error fetching listings:', error.message);
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred while fetching the listings.',
+            });
+        }
+    }
 }
 
 export default ListingController;
