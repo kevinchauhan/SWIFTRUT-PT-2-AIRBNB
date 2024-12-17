@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { api } from "../http/client";
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -29,7 +29,7 @@ const LoginForm = () => {
 
         setLoading(true); // Set loading to true when API call starts
         try {
-            const response = await axios.post("https://example.com/api/login", formData);
+            const response = await api.post("/api/auth/login", formData);
             if (response.status === 200) {
                 toast.success("Login successful!");
                 setFormData({ email: "", password: "" });
