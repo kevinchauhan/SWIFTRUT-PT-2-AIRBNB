@@ -4,7 +4,7 @@ const ListingCard = ({ listing }) => {
             {/* Image Section */}
             <div className="relative rounded-lg overflow-hidden">
                 <img
-                    src={listing.imageUrl} // Replace with actual image URL
+                    src={listing.images[0] || 'https://a0.muscache.com/im/pictures/miso/Hosting-983628068535189241/original/6fb13419-22cb-4378-bacc-22fa484869e2.jpeg?im_w=1200&im_format=avif'} // Replace with actual image URL
                     alt={listing.title}
                     className="w-full h-48 object-cover"
                 />

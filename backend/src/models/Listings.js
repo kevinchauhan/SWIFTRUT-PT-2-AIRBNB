@@ -38,16 +38,8 @@ const ListingSchema = new mongoose.Schema(
             min: 1,
         },
         location: {
-            lat: {
-                type: Number,
-            },
-            lng: {
-                type: Number,
-            },
-            address: {
-                type: String,
-                trim: true,
-            },
+            type: String,
+            trim: true,
         },
         price: {
             type: Number,

@@ -32,31 +32,48 @@ const ListingDetails = () => {
     };
 
     if (!listing) {
-        return <p>Loading...</p>;
+        return <p className="text-center text-gray-500">Loading...</p>;
     }
 
     return (
-        <div className="listing-details">
-            <div className="listing-header">
-                <h1>{listing.title}</h1>
-                <p>{listing.category}</p>
-                <p>{listing.description}</p>
+        <div className="max-w-5xl mx-auto p-4">
+            {/* Hero Section */}
+            <div className="relative">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {listing.images.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image}
+                            alt={`${listing.title} image ${index + 1}`}
+                            className="rounded-lg w-full h-60 object-cover shadow-lg"
+                        />
+                    ))}
+                </div>
+                <button className="absolute top-4 right-4 bg-white px-4 py-2 rounded-full shadow-md text-sm font-semibold">
+                    Share
+                </button>
             </div>
 
-            {/* Display the images */}
-            <div className="listing-images">
-                {listing.images.map((image, index) => (
-                    <img key={index} src={image} alt={`${listing.title} image ${index + 1}`} className="listing-image" />
-                ))}
+            {/* Listing Content */}
+            <div className="mt-6">
+                <h1 className="text-3xl font-bold">{listing.title}</h1>
+                <p className="text-sm text-gray-500">{listing.category}</p>
+
+                <div className="my-4 text-gray-700">
+                    <p>{listing.description}</p>
+                </div>
             </div>
 
-            {/* Price and Reservation */}
-            <div className="reservation">
-                <p>Price: ${listing.price} per night</p>
+            {/* Pricing and Reservation */}
+            <div className="bg-white shadow-md rounded-lg p-6 mt-6 border border-gray-200">
+                <p className="text-xl font-semibold">
+                    ${listing.price} <span className="text-sm font-light">per night</span>
+                </p>
                 <button
                     onClick={handleReserve}
                     disabled={reserved}
-                    className={`reserve-button ${reserved ? 'reserved' : ''}`}
+                    className={`w-full mt-4 py-2 text-white font-semibold rounded-lg ${reserved ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'
+                        }`}
                 >
                     {reserved ? 'Reserved' : 'Reserve Now'}
                 </button>

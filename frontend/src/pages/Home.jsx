@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import ListingCard from "../components/ListingCard"
+import { useEffect, useState } from "react";
+import { api } from "../http/client";
 const listings = [
     {
         _id: "1",
@@ -22,6 +24,24 @@ const listings = [
     // Add more listings as needed
 ];
 const Home = () => {
+    const [listings, setListings] = useState([]);
+    useEffect(() => {
+        fetchListings()
+    }, [])
+
+    const fetchListings = async () => {
+        try {
+            const { data } = await api.get("/api/listing");
+            if (data.success) {
+                setListings(data.data);
+            } else {
+                console.error('Error fetching listings:', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching listings:', error);
+        }
+    }
+
     return (
         <div className="container mx-auto py-2">
 
