@@ -4,6 +4,7 @@ import { api } from '../http/client';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // Main style file for the calendar
 import 'react-date-range/dist/theme/default.css'; // Theme file for the calendar
+import { toast } from 'react-toastify';
 
 const ListingDetails = () => {
     const { id } = useParams(); // Get the listing ID from the URL
@@ -36,7 +37,6 @@ const ListingDetails = () => {
             const { startDate, endDate } = dateRange[0];
             const payload = {
                 listingId: id, // Listing ID
-                userId: "USER_ID_HERE", // Replace with actual user ID from context/auth
                 checkIn: startDate,
                 checkOut: endDate,
                 totalPrice,
@@ -46,6 +46,7 @@ const ListingDetails = () => {
 
             if (response.data.success) {
                 setReserved(true);
+                toast.success('Reserved successfully')
             } else {
                 console.error('Reservation failed:', response.data.message);
             }

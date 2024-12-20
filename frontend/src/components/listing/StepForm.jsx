@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { api } from '../../http/client';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const questions = [
     {
@@ -75,8 +76,29 @@ const StepForm = () => {
     const navigate = useNavigate()
 
     // Define the handleFileDrop function before using it
-    const handleFileDrop = (acceptedFiles) => {
-        setSelectedFiles(acceptedFiles);
+    const [uploadedUrls, setUploadedUrls] = useState([]);
+
+    const handleFileDrop = async (acceptedFiles) => {
+        const uploadPromises = acceptedFiles.map(async (file) => {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "ml_default"); // Replace with your upload preset
+            formData.append("cloud_name", "dqs5lnafn"); // Replace with your Cloudinary cloud name
+
+            try {
+                const response = await axios.post(
+                    `https://api.cloudinary.com/v1_1/dqs5lnafn/image/upload`,
+                    formData
+                );
+                return response.data.secure_url; // Get the uploaded image URL
+            } catch (error) {
+                console.error("Upload failed:", error);
+                return null;
+            }
+        });
+
+        const urls = await Promise.all(uploadPromises);
+        setUploadedUrls((prevUrls) => [...prevUrls, ...urls.filter(Boolean)]); // Append non-null URLs
     };
 
     // Initialize useDropzone hook after function definition
@@ -128,6 +150,7 @@ const StepForm = () => {
                 roomCount: Number(answers['Rooms']),
                 bathroomCount: Number(answers['Bathrooms']),
                 location,
+                images: uploadedUrls,
                 price: Number(answers['Price']),
             };
             // Send JSON data to the API
@@ -203,25 +226,45 @@ const StepForm = () => {
                 )}
 
                 {/* Step 5 - Image Upload */}
+                {/* Step 5 - Image Upload */}
                 {questions[currentStep].type === 'image' && (
                     <div>
-                        <div {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            {selectedFiles.length > 0 ? (
-                                <div>
-                                    <p>Files uploaded:</p>
-                                    <ul>
-                                        {selectedFiles.map((file, index) => (
-                                            <li key={index}>{file.name}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ) : (
-                                <p>Drag and drop images here or click to select files</p>
-                            )}
-                        </div>
+                        {uploadedUrls.length < 1 &&
+                            <div
+                                {...getRootProps()}
+                                className="border-dashed border-2 border-gray-300 p-6 rounded-md text-center cursor-pointer"
+                            >
+                                <input {...getInputProps()} />
+                                <p>Drag and drop images here, or click to select files</p>
+                            </div>
+                        }
+
+                        {/* Preview uploaded URLs */}
+                        {uploadedUrls.length > 0 && (
+                            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {uploadedUrls.map((url, index) => (
+                                    <div key={index} className="relative group">
+                                        <img
+                                            src={url}
+                                            alt={`Uploaded Preview ${index + 1}`}
+                                            className="w-full h-32 object-cover rounded-md"
+                                        />
+                                        {/* Optionally add a remove button */}
+                                        <button
+                                            onClick={() =>
+                                                setUploadedUrls((prev) => prev.filter((_, i) => i !== index))
+                                            }
+                                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
+
 
                 <div className="mt-6 flex justify-between items-center">
                     <button

@@ -2,27 +2,7 @@ import { Link } from "react-router-dom";
 import ListingCard from "../components/ListingCard"
 import { useEffect, useState } from "react";
 import { api } from "../http/client";
-const listings = [
-    {
-        _id: "1",
-        imageUrl: 'https://via.placeholder.com/300',
-        title: 'Cozy Apartment in NYC',
-        price: '$120',
-        isSuperhost: true,
-        reviewsCount: 30,
-        location: 'New York, NY',
-    },
-    {
-        _id: '2',
-        imageUrl: 'https://via.placeholder.com/300',
-        title: 'Charming Villa in Bali',
-        price: '$300',
-        isSuperhost: false,
-        reviewsCount: 120,
-        location: 'Bali, Indonesia',
-    },
-    // Add more listings as needed
-];
+
 const Home = () => {
     const [listings, setListings] = useState([]);
     useEffect(() => {
