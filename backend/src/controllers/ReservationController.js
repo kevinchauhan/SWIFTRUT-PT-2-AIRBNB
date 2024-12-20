@@ -3,9 +3,8 @@ import Listing from '../models/Listings.js';
 
 class ReservationController {
     static async createReservation(req, res) {
-        const { id: listingId } = req.params; // Listing ID from URL params
-        const { userId, checkIn, checkOut, totalPrice } = req.body;
-
+        const { listingId, checkIn, checkOut, totalPrice } = req.body;
+        const userId = req.user.userId
         try {
             // Find the listing
             const listing = await Listing.findById(listingId);

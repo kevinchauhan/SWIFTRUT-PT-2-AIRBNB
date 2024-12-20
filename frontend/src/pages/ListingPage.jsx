@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../http/client'; // Assuming you have an API client set up
+import { api } from '../http/client';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // Main style file for the calendar
+import 'react-date-range/dist/theme/default.css'; // Theme file for the calendar
 
 const ListingDetails = () => {
     const { id } = useParams(); // Get the listing ID from the URL
     const [listing, setListing] = useState(null);
     const [reserved, setReserved] = useState(false); // To track reservation status
+    const [dateRange, setDateRange] = useState([
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
+        },
+    ]);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -22,14 +33,34 @@ const ListingDetails = () => {
 
     const handleReserve = async () => {
         try {
-            const response = await api.post('/api/reserve', { listingId: id });
+            const { startDate, endDate } = dateRange[0];
+            const payload = {
+                listingId: id, // Listing ID
+                userId: "USER_ID_HERE", // Replace with actual user ID from context/auth
+                checkIn: startDate,
+                checkOut: endDate,
+                totalPrice,
+            };
+
+            const response = await api.post(`/api/reservation/create`, payload);
+
             if (response.data.success) {
                 setReserved(true);
+            } else {
+                console.error('Reservation failed:', response.data.message);
             }
         } catch (error) {
             console.error('Error making reservation:', error);
         }
     };
+
+
+    useEffect(() => {
+        // Calculate total price based on selected dates
+        const { startDate, endDate } = dateRange[0];
+        const days = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) || 0;
+        setTotalPrice((days > 0 ? days : 1) * (listing?.price || 0));
+    }, [dateRange, listing]);
 
     if (!listing) {
         return <p className="text-center text-gray-500">Loading...</p>;
@@ -64,11 +95,21 @@ const ListingDetails = () => {
                 </div>
             </div>
 
-            {/* Pricing and Reservation */}
+            {/* Calendar and Pricing */}
             <div className="bg-white shadow-md rounded-lg p-6 mt-6 border border-gray-200">
-                <p className="text-xl font-semibold">
-                    ${listing.price} <span className="text-sm font-light">per night</span>
-                </p>
+                <DateRangePicker
+                    ranges={dateRange}
+                    onChange={(ranges) => setDateRange([ranges.selection])}
+                    minDate={new Date()}
+                    rangeColors={['#f43f5e']}
+                />
+
+                <div className="mt-4">
+                    <p className="text-xl font-semibold">
+                        Total Price: ${totalPrice.toFixed(2)}
+                    </p>
+                </div>
+
                 <button
                     onClick={handleReserve}
                     disabled={reserved}
