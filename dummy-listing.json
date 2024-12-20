@@ -1,0 +1,138 @@
+[
+    {
+        "title": "Cozy Apartment in Downtown",
+        "description": "A comfortable and modern apartment located in the heart of the city.",
+        "images": [
+            "https://via.placeholder.com/600/92c952",
+            "https://via.placeholder.com/600/771796",
+            "https://via.placeholder.com/600/d32776"
+        ],
+        "category": "Apartment",
+        "placeType": "Entire Place",
+        "roomCount": 2,
+        "bathroomCount": 1,
+        "guestCount": 4,
+        "location": "Downtown, NY",
+        "price": 120,
+        "user": "64a82e63e87fc8c726a24d9a"
+    },
+    {
+        "title": "Beachside Bungalow",
+        "description": "Relax in this beautiful bungalow just steps from the beach.",
+        "images": [
+            "https://via.placeholder.com/600/f66b97",
+            "https://via.placeholder.com/600/56a8c2",
+            "https://via.placeholder.com/600/b0f7cc"
+        ],
+        "category": "Bungalow",
+        "placeType": "Entire Place",
+        "roomCount": 3,
+        "bathroomCount": 2,
+        "guestCount": 6,
+        "location": "Malibu, CA",
+        "price": 350,
+        "user": "64a82e63e87fc8c726a24d9b"
+    },
+    {
+        "title": "Luxury Penthouse Suite",
+        "description": "Experience the height of luxury in this spacious penthouse.",
+        "images": [
+            "https://via.placeholder.com/600/cb8a5a",
+            "https://via.placeholder.com/600/54176f",
+            "https://via.placeholder.com/600/68e328"
+        ],
+        "category": "Penthouse",
+        "placeType": "Entire Place",
+        "roomCount": 4,
+        "bathroomCount": 3,
+        "guestCount": 8,
+        "location": "Manhattan, NY",
+        "price": 1200,
+        "user": "64a82e63e87fc8c726a24d9c"
+    },
+    {
+        "title": "Rustic Cabin in the Woods",
+        "description": "A secluded cabin surrounded by nature. Perfect for a quiet getaway.",
+        "images": [
+            "https://via.placeholder.com/600/3b0d06",
+            "https://via.placeholder.com/600/aacb5f",
+            "https://via.placeholder.com/600/47b63b"
+        ],
+        "category": "Cabin",
+        "placeType": "Entire Place",
+        "roomCount": 2,
+        "bathroomCount": 1,
+        "guestCount": 4,
+        "location": "Asheville, NC",
+        "price": 150,
+        "user": "64a82e63e87fc8c726a24d9d"
+    },
+    {
+        "title": "Charming Cottage with Garden",
+        "description": "A quaint cottage with a beautiful garden and modern amenities.",
+        "images": [
+            "https://via.placeholder.com/600/24f355",
+            "https://via.placeholder.com/600/9c184f",
+            "https://via.placeholder.com/600/1b5e9c"
+        ],
+        "category": "Cottage",
+        "placeType": "Entire Place",
+        "roomCount": 2,
+        "bathroomCount": 1,
+        "guestCount": 5,
+        "location": "Napa Valley, CA",
+        "price": 200,
+        "user": "64a82e63e87fc8c726a24d9e"
+    },
+    {
+        "title": "Modern Loft with City Views",
+        "description": "A chic loft with stunning views of the city skyline.",
+        "images": [
+            "https://via.placeholder.com/600/baacca",
+            "https://via.placeholder.com/600/43b4d5",
+            "https://via.placeholder.com/600/f845bc"
+        ],
+        "category": "Loft",
+        "placeType": "Entire Place",
+        "roomCount": 1,
+        "bathroomCount": 1,
+        "guestCount": 2,
+        "location": "Chicago, IL",
+        "price": 180,
+        "user": "64a82e63e87fc8c726a24d9f"
+    },
+    {
+        "title": "Historic Manor with Pool",
+        "description": "A grand manor with elegant interiors and a private pool.",
+        "images": [
+            "https://via.placeholder.com/600/501fe1",
+            "https://via.placeholder.com/600/75e6f4",
+            "https://via.placeholder.com/600/6393f6"
+        ],
+        "category": "Manor",
+        "placeType": "Entire Place",
+        "roomCount": 5,
+        "bathroomCount": 4,
+        "guestCount": 10,
+        "location": "Savannah, GA",
+        "price": 500,
+        "user": "64a82e63e87fc8c726a24d9g"
+    },
+    {
+        "title": "Urban Studio",
+        "description": "A small but stylish studio in a vibrant neighborhood.",
+        "images": [
+            "https://via.placeholder.com/600/f76252",
+            "https://via.placeholder.com/600/8e732b",
+            "https://via.placeholder.com/600/eaf7d2"
+        ],
+        "category": "Studio",
+        "placeType": "Entire Place",
+        "roomCount": 1,
+        "bathroomCount": 1,
+        "guestCount": 2,
+        "location": "Brooklyn, NY",
+        "price": 90,
+        "user": "64a82e63e87fc8c726a24d9h"
+    }
+]

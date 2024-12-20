@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import auth from './routes/auth.js';
 import listing from './routes/listing.js';
+import reservation from './routes/reservation.js';
 import db from './config/db.js';
 import { Config } from './config/index.js';
 
@@ -25,6 +26,7 @@ app.use(helmet());
 
 app.use("/api/auth", auth);
 app.use("/api/listing", listing);
+app.use("/api/reservation", reservation);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
