@@ -38,9 +38,9 @@ class ReservationController {
     }
 
     static async getUserReservations(req, res) {
-        const { userId } = req.params;
 
         try {
+            const userId = req.user.userId;
             const reservations = await Reservation.find({ user: userId })
                 .populate('listing', 'title images location price')
                 .sort({ createdAt: -1 }); // Sorting by latest first
