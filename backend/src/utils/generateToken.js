@@ -12,6 +12,7 @@ const generateTokenAndSetCookie = (userId, res) => {
         secure: process.env.NODE_ENV === 'production', // Set cookie as Secure in production (requires HTTPS)
         maxAge: 24 * 60 * 60,   // 1 day expiration time
         path: '/',              // Available for the entire app
+        sameSite: 'none'
     }));
 };
 
