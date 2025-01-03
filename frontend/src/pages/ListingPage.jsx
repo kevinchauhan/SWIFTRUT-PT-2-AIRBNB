@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../http/client';
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // Main style file for the calendar
-import 'react-date-range/dist/theme/default.css'; // Theme file for the calendar
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import { toast } from 'react-toastify';
+import useAuthStore from '../store/authStore';
 
 const ListingDetails = () => {
     const { id } = useParams(); // Get the listing ID from the URL
+    const { isAuthenticated } = useAuthStore(); // Get authentication status from authStore
     const [listing, setListing] = useState(null);
     const [reserved, setReserved] = useState(false); // To track reservation status
     const [dateRange, setDateRange] = useState([
@@ -33,6 +35,11 @@ const ListingDetails = () => {
     }, [id]);
 
     const handleReserve = async () => {
+        if (!isAuthenticated) {
+            toast.error('Please log in to reserve this listing.');
+            return;
+        }
+
         try {
             const { startDate, endDate } = dateRange[0];
             const payload = {
@@ -46,15 +53,15 @@ const ListingDetails = () => {
 
             if (response.data.success) {
                 setReserved(true);
-                toast.success('Reserved successfully')
+                toast.success('Reserved successfully');
             } else {
-                console.error('Reservation failed:', response.data.message);
+                toast.error(response.data.message || 'Reservation failed');
             }
         } catch (error) {
             console.error('Error making reservation:', error);
+            toast.error('Failed to reserve the listing. Please try again.');
         }
     };
-
 
     useEffect(() => {
         // Calculate total price based on selected dates
