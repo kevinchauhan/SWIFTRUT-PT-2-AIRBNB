@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../http/client";
 import { toast } from "react-toastify";
 
-const SignUpForm = () => {
+const SignUpForm = ({ closeModal }) => {
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false); // Track loading state
@@ -37,8 +37,9 @@ const SignUpForm = () => {
         setLoading(true); // Set loading to true when API call starts
         try {
             const response = await api.post("/api/auth/signup", formData);
-            if (response.status === 200) {
-                toast.success("Sign up successful!");
+            if (response.status === 201) {
+                closeModal()
+                toast.success("Sign up successful! Please log in");
                 setFormData({ name: "", email: "", password: "" });
             }
         } catch (error) {

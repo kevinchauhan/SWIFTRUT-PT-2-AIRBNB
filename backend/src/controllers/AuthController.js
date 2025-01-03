@@ -41,7 +41,6 @@ export class AuthController {
                 image,
             });
 
-            await generateTokenAndSetCookie(newUser._id, res);
             await newUser.save();
 
             res.status(201).json({
@@ -99,6 +98,16 @@ export class AuthController {
         } catch (error) {
             console.log("Error in logout controller", error.message);
             res.status(500).json({ success: false, message: "Internal server error" });
+        }
+    }
+
+    async self(req, res, next) {
+        try {
+            console.log(req.user)
+            const user = await User.findById(req.user.userId)
+            return res.json({ user })
+        } catch (error) {
+            return next(error)
         }
     }
 }

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../http/client";
+import useAuthStore from "../store/authStore";
 
-const LoginForm = () => {
+const LoginForm = ({ closeModal }) => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false); // Track loading state
+    const [loading, setLoading] = useState(false);
+    const { login } = useAuthStore()
 
     // Validate the form fields
     const validateForm = () => {
@@ -31,6 +33,8 @@ const LoginForm = () => {
         try {
             const response = await api.post("/api/auth/login", formData);
             if (response.status === 200) {
+                login(response.data.user);
+                closeModal()
                 toast.success("Login successful!");
                 setFormData({ email: "", password: "" });
             }

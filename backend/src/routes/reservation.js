@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.use(authenticate)
 router.post("/create", ReservationController.createReservation);
-router.get("/users/:id", ReservationController.getUserReservations);
+router.get("/user", authenticate, ReservationController.getUserReservations);
 
 export default router;
